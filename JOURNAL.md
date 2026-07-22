@@ -6,7 +6,19 @@
 
 **Issue title:** Resume section detection fails on text with leading whitespace
 
-**Tier:** [x] Tier 1  [ ] Tier 2  [ ] Tier 3
+**Tier:** Tier 1
+
+**Selection reasoning:**
+I'm comfortable with Python and testing generally, but this is my first time working
+in the pathreview codebase specifically, so I chose a Tier 1 issue on purpose rather
+than defaulting to it out of caution. My goal for this first issue is to learn the
+repo's contribution workflow end-to-end — branch naming, commit conventions, test
+layout, and the PR process — on a change that's small and well-scoped, before taking
+on a Tier 2/3 issue that touches more of the architecture. This issue in particular
+is a good fit: it's isolated to a single method (`_detect_sections()`) in one parser
+file, has three existing failing tests that already define "done," and doesn't
+require touching the API, RAG pipeline, or agent layer, so I can focus on
+understanding the ingestion module in depth rather than juggling multiple subsystems.
 
 **Problem summary:**
 The `_detect_sections()` method in `ingestion/parsers/resume_parser.py` uses regex
@@ -21,6 +33,6 @@ the related failing tests `test_parse_single_column_resume_text`,
 
 **Branch name:** fix/147-resume-parser-whitespace
 
-**Setup confirmation:** [x] App runs locally at localhost:5173
+**Setup confirmation:** Yes, the app runs locally at localhost:5173
 
-**Cohort ledger:** [ ] Issue added to cohort ledger
+**Cohort ledger:** I've added the issue to cohort ledger
