@@ -36,3 +36,22 @@ the related failing tests `test_parse_single_column_resume_text`,
 **Setup confirmation:** Yes, the app runs locally at localhost:5173
 
 **Cohort ledger:** I've added the issue to cohort ledger
+
+## Week 8 — Reproduction & solution planning
+
+**Reproduction commit link:** https://github.com/Gourav-praneeth/pathreview/commit/90f7ed5
+
+**Reproduction summary:**
+Reproduced the bug two ways: ran the three failing unit tests named in the issue
+(all failed with `AssertionError` on empty/missing detected sections), and called
+`ResumeParser._detect_sections()` directly on indented vs. unindented versions of
+the same text — the indented version returned `[]` while the unindented version
+correctly returned `['Education', 'Skills']`, confirming leading whitespace is
+what breaks the regex anchors.
+
+**PLAN.md link:** https://github.com/Gourav-praneeth/pathreview/blob/fix/147-resume-parser-whitespace/PLAN.md
+
+**Blockers or open questions:**
+Not yet sure how much leading whitespace real PDF extraction actually produces
+(plain spaces vs. tabs vs. non-breaking spaces) — planning to keep the fix scoped
+to spaces/tabs unless a real fixture surfaces something wider.
