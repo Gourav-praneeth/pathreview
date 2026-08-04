@@ -90,3 +90,33 @@ unrelated pre-existing `B904` lint issue in `resume_parser.py` since it was a
 trivial 1-line fix, but skipped the mypy hook for that one commit rather than
 add annotations to 10 unrelated test methods. Not a blocker for the PR itself,
 just noting the discrepancy in case it comes up in review.
+
+---
+
+### Check-in 2 (end of week)
+
+**PR link:** https://github.com/ascherj/pathreview/pull/833
+
+**Branch:** `fix/147-resume-parser-whitespace`
+
+**What you built:**
+Fixed `ResumeParser._detect_sections()` so it detects resume section headers
+(Education, Skills, Experience, etc.) even when the header line has leading
+whitespace, by allowing optional spaces/tabs between the line-start anchor and
+the section keyword in all four regex patterns. Previously, indented text (as
+produced by real PDF extraction, or by indented test fixtures) caused
+`detected_sections` to come back empty.
+
+**Tests added or updated:**
+Updated `tests/unit/test_resume_parser.py` — the three pre-existing failing
+tests (`test_parse_single_column_resume_text`, `test_parse_resume_no_work_experience`,
+`test_detect_sections`) now pass against the fix, and I added a new
+`test_detect_sections_with_tab_indentation` to cover tab-indented headers, since
+the issue only described the space-indented case.
+
+**Self-review confirmation:** [x] make check passes  [x] make test-unit passes
+(with documented pre-existing failures unrelated to this change — see PR
+description and Check-in 1 for the exact before/after counts; my changes
+introduce no new failures)
+
+**Draft PR feedback received from:** none yet — just opened as a draft
