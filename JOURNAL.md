@@ -120,3 +120,77 @@ description and Check-in 1 for the exact before/after counts; my changes
 introduce no new failures)
 
 **Draft PR feedback received from:** none yet — just opened as a draft
+
+## Week 10 — Iteration & reflection
+
+### Reviewer feedback
+
+**Feedback received:** [ ] Yes  [x] No — still awaiting review
+
+**Summary of feedback:**
+Checked PR #833 directly via the GitHub API (issue comments, PR reviews, and
+inline review comments — all three endpoints returned empty) as well as the
+PR page itself. No maintainer or peer has commented, reviewed, approved, or
+requested changes as of this entry. The PR is still in draft status.
+
+**How you responded:**
+N/A — nothing to respond to yet. If feedback arrives after this submission,
+I'll follow up with the maintainer directly and update this section, but per
+the assignment instructions I'm noting the lack of feedback and moving on
+rather than blocking on it.
+
+---
+
+### Reflection
+
+**What was harder than you expected?**
+Getting the environment running at all was harder than the actual bug fix.
+My `.venv` had been built against the system Python (3.9) instead of the
+3.11+ the project requires, so `pip install -e ".[dev]"` failed silently on
+version resolution and nothing — including `uvicorn` — ever got installed.
+On top of that, Postgres/Redis needed Docker running and a `.env` file that
+didn't exist yet. None of this was related to the issue itself, but it ate
+real time before I could even run a test. It was a good reminder that "make
+run doesn't work" is often an environment problem, not a code problem, and
+the fix is to read the Makefile/setup scripts carefully rather than guess.
+
+**What did you learn about working in a large codebase?**
+The biggest difference from my own projects is that "done" isn't just "my
+change works" — it's "my change works AND I've proven the rest of the
+codebase's existing problems aren't mine." I had to run `make check` and
+`make test-unit` *before* touching anything just to get a baseline, because
+this codebase already has 53 failing unit tests and 182 lint errors that
+have nothing to do with resume parsing. Without that baseline, I'd have had
+no way to tell my reviewer (or myself) whether a failing test was something
+I broke or something that was already broken. I also learned that local
+tooling (the pre-commit mypy hook) can be stricter than the project's own
+documented CI gate (`make typecheck` excludes `tests/`, the hook doesn't) —
+in a codebase you don't own, you have to notice and document that gap
+rather than just quietly overriding it.
+
+**How did AI tools help — and where did they fall short?**
+AI assistance was most useful for the mechanical, wide-surface-area work:
+diagnosing the venv/Docker setup chain step by step, running and parsing
+large `pytest`/`ruff`/`mypy` outputs to isolate exactly which failures were
+pre-existing versus newly introduced, and drafting the reproduction doc,
+PLAN.md, and PR description in a consistent format. Where it fell short was
+scope judgment — when I found that `_strip_markdown()` had the identical
+whitespace-anchoring bug as `_detect_sections()`, the AI could point out the
+pattern immediately, but deciding whether to fix it in this PR or leave it
+out of scope was a judgment call I had to make myself, not something it
+could decide for me. It's genuinely good at "here are the facts and the
+tradeoffs," not at "here's what you should actually want."
+
+**What would you do differently if you started over?**
+I'd run the full environment setup and baseline `make check`/`make
+test-unit` in Week 7, before writing the problem summary, instead of
+discovering the Python version mismatch in Week 9 while trying to implement
+the fix. Having the baseline numbers early would have made the whole
+contribution cycle feel less like it was happening in the wrong order.
+
+**What are you most proud of from this module?**
+Catching the `_strip_markdown()` bug that shared the same root cause as the
+issue I was assigned, and then having the discipline to *not* fix it just
+because I could — staying inside the scope of #147 and documenting the
+related bug instead, rather than quietly expanding the PR into something
+bigger than what was asked for.
