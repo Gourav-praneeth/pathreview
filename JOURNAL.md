@@ -190,7 +190,8 @@ contribution cycle feel less like it was happening in the wrong order.
 
 **What are you most proud of from this module?**
 Catching the `_strip_markdown()` bug that shared the same root cause as the
-issue I was assigned, and then having the discipline to *not* fix it just
-because I could — staying inside the scope of #147 and documenting the
-related bug instead, rather than quietly expanding the PR into something
-bigger than what was asked for.
+issue I was assigned. I had the discipline to *not* fix it just because I
+could — I stayed inside the scope of #147 and documented the related bug
+instead of quietly expanding the PR. It would have been easy to justify
+folding it in since it was "basically the same fix," but that's exactly the
+kind of scope creep that makes PRs harder to review.
